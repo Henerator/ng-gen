@@ -1,71 +1,60 @@
-# ng-gen README
+# ng-gen
 
-This is the README for your extension "ng-gen". After writing up a brief description, we recommend including the following sections.
+**ng‑gen** is a lightweight extension for generating Angular elements directly from the VS Code explorer.
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+It simplifies `ng generate` usage and enables creating components, services, and directives via the context menu.
 
 ---
 
-## Following extension guidelines
+## 🚀 Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+* **NgGen: generate** command in the explorer context menu (folder only).
+* Executes the Angular CLI `npx ng generate` command with chosen type and name.
+* Supports three types: **component**, **service**, **directive**.
+* Configurable prefix (components/services) plus `skipSpec`, `inlineTemplate`, `inlineStyle` options.
+* Opens an integrated terminal and shows notifications about generation progress.
+* Quick access via Command Palette (`Ctrl+Shift+P` → *NgGen: generate*).
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## 🛠 Requirements
 
-## Working with Markdown
+* Node.js and npm must be installed.
+* Angular CLI (available via `npx`).
+* The workspace should be an Angular project; generation runs in the selected directory.
+* VS Code version **1.109.0** or newer (specified in `engines.vscode`).
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## 🎯 Usage
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+1. Open the root folder of your Angular project.
+2. Right‑click a folder in Explorer and choose **NgGen: generate**.
+3. Select the type of element (component, service or directive).
+4. Enter a name for the item.
+5. The command executes in a terminal and a notification appears once done.
 
-## For more information
+> You can also invoke the command from the palette (`Ctrl+Shift+P`) without a folder selected; the current workspace folder will be used.
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## ⚙️ Extension Settings
 
-**Enjoy!**
+These settings are available under `File → Preferences → Settings` and the `ng-gen` namespace.
+
+| Setting                    | Type    | Default      | Description                          |
+|---------------------------|---------|--------------|--------------------------------------|
+| `ng-gen.componentPrefix`  | string  | `app`        | Prefix for generated components      |
+| `ng-gen.servicePrefix`    | string  | `app`        | Prefix for generated services        |
+| `ng-gen.skipSpec`         | boolean | `false`      | Skip creating spec/test files        |
+| `ng-gen.inlineTemplate`   | boolean | `false`      | Use inline template for components   |
+| `ng-gen.inlineStyle`      | boolean | `false`      | Use inline style for components      |
+
+## ❗ Known Issues
+
+* Commands run via `npx`, so internet access is required on first run.
+* Only three basic types are supported; extension can be extended if needed.
+* If an existing terminal is busy, you may need to close it manually.
+
+## 📝 Release Notes
+
+### 0.0.1
+*Initial release* — generate components, services and directives from the explorer.
+
+---
+
+Thank you for using **ng‑gen**! If you have suggestions or find bugs, please open an issue on GitHub.

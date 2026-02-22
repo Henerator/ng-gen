@@ -3,21 +3,68 @@
   "displayName": "ng-gen",
   "description": "Tiny free angular elements generator",
   "version": "0.0.1",
+  "license": "MIT",
+  "publisher": "Henerator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Henerator/ng-gen.git"
+  },
   "engines": {
     "vscode": "^1.109.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Snippets"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "ng-gen.helloWorld",
-        "title": "Hello World"
+        "command": "ng-gen.generate",
+        "title": "NgGen: generate"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "ng-gen.generate",
+          "when": "explorerResourceIsFolder == true",
+          "group": "ng-gen-generate"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "ng-gen configuration",
+      "properties": {
+        "ng-gen.componentPrefix": {
+          "type": "string",
+          "default": "app",
+          "description": "Prefix to use for generated Angular components."
+        },
+        "ng-gen.servicePrefix": {
+          "type": "string",
+          "default": "app",
+          "description": "Prefix to use for generated Angular services."
+        },
+        "ng-gen.skipSpec": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip generating spec files."
+        },
+        "ng-gen.inlineTemplate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use inline template."
+        },
+        "ng-gen.inlineStyle": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use inline style."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

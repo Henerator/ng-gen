@@ -1,26 +1,40 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { typeStrategyMap } from './strategies/type-strategy.map';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  const disposable = vscode.commands.registerCommand('ng-gen.generate', async (uri: vscode.Uri) => {
+    // Show quick pick for type
+    const availableTypes = Array.from(typeStrategyMap.keys());
+    const type = await vscode.window.showQuickPick(availableTypes, {
+      placeHolder: 'Select what to generate',
+    });
+    if (!type) {
+      vscode.window.showErrorMessage('You must select what to generate.');
+      return;
+    }
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "ng-gen" is now active!');
+    // Ask user for name
+    const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
+    const name = await vscode.window.showInputBox({
+      prompt: `Enter Angular ${type} name`,
+      placeHolder: `name`,
+      validateInput: (value) => (value ? undefined : `${typeLabel} name required`),
+    });
+    if (!name) {
+      vscode.window.showErrorMessage(`${typeLabel} name is required.`);
+      return;
+    }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('ng-gen.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from ng-gen!');
-	});
+    const strategy = typeStrategyMap.get(type);
+    if (!strategy) {
+      vscode.window.showErrorMessage(`Strategy for type '${type}' not found.`);
+      return;
+    }
 
-	context.subscriptions.push(disposable);
+    strategy.generate(uri, name);
+  });
+
+  context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
